@@ -4,3 +4,28 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<p></p>
+
+<p>User: @User</p>
+<p>User.IsInRole("everyone"): @User.IsInRole("everyone")</p>
+<p>User.IsInRole("docker-users"): @User.IsInRole("docker-users")</p>
+<p>User.IsInRole("trivadis\TVD_CH"): (todo: false! why?): @User.IsInRole("trivadis\\TVD_CH")</p>
+<p>User.IsInRole("TRIVADIS\TVD_CH"): (todo: false! why?): @User.IsInRole("TRIVADIS\\TVD_CH")</p>
+<p>User.IsInRole("trivadis/TVD_CH"): (todo: false! why?): @User.IsInRole("trivadis/TVD_CH")</p>
+<p>User.IsInRole("TRIVADIS/TVD_CH"): (todo: false! why?): @User.IsInRole("TRIVADIS/TVD_CH")</p>
+<p>User.IsInRole("TVD_CH"): (todo: false! why?): @User.IsInRole("TVD_CH")</p>
+<p>User.GetType(): (System.Security.Principal.WindowsPrincipal): @User.GetType()</p>
+
+<p></p>
+
+<p>User.Identity.Name: (TRIVADIS\bop) @User.Identity?.Name</p>
+<p>User.Identity.IsAuthenticated: @User.Identity?.IsAuthenticated</p>
+<p>User.Identity.AuthenticationType: (Negotiate (IIS) or NTLM (debug with Kestrel)): @User.Identity?.AuthenticationType</p>
+<p>User.Identity.GetType(): (System.Security.Principal.WindowsIdentity): @User.Identity?.GetType()</p>
+
+<p></p>
+
+<p>HttpContext.Connection.ClientCertificate.Subject: @this.Context.Connection?.ClientCertificate?.Subject</p>
+<p>HttpContext.Connection?.ClientCertificate?.GetType(): @this.Context.Connection?.ClientCertificate?.GetType()</p>
+<p>HttpContext.Connection.ClientCertificate: @this.Context.Connection?.ClientCertificate</p>
