@@ -1,11 +1,9 @@
-﻿using System.Security.Authentication;
-
-// Source: https://stackoverflow.com/questions/55337045/where-to-set-custom-claimsprincipal-for-all-httprequests
-public class CustomWindowsUserMiddlewareForDebugOnly
+﻿// Source: https://stackoverflow.com/questions/55337045/where-to-set-custom-claimsprincipal-for-all-httprequests
+public class CustomWindowsUserMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public CustomWindowsUserMiddlewareForDebugOnly(RequestDelegate next)
+    public CustomWindowsUserMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -33,10 +31,12 @@ public class CustomWindowsUserMiddlewareForDebugOnly
         {
             List<string> roles = new List<string>();
             roles.Add("dummy_1");
-            if (httpContext.User.IsInRole("docker-users")) {
+            if (httpContext.User.IsInRole("docker-users"))
+            {
                 roles.Add("docker-users"); // example: reuse an exiting AD role
 
                 roles.Add("dummy_2"); // add a new custom role which does not exist in AD -> check Authenticate attribute in HomeController
+                //roles.Add("dummy_3"); // add a new custom role which does not exist in AD -> check Authenticate attribute in HomeController
             }
             var principal = new MyCustomPrincipal(httpContext.User.Identity, roles.ToArray(), "my_custom_id", "test_firstname", "test_lastname", "MyOrganization");
 

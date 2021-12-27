@@ -1,8 +1,8 @@
 ﻿public static class CustomWindowsUserMiddlewareExtensions
 {
-    public static IApplicationBuilder UseCustomWindowsUserForDevelopment(this IApplicationBuilder applicationBuilder)
+    public static IApplicationBuilder UseCustomWindowsUser(this IApplicationBuilder applicationBuilder)
     {
-        return applicationBuilder.UseMiddleware<CustomWindowsUserMiddlewareForDebugOnly>();
+        return applicationBuilder.UseMiddleware<CustomWindowsUserMiddleware>();
     }
 
 }

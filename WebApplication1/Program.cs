@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
+using WebApplication1;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,11 +41,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-//app.UseCustomWindowsUserForDevelopment(); // middleware is getting ClaimsPrincipal+ClaimsIdentity instead of WindowsPrincipal+WindowsIdentity!
+//app.UseCustomWindowsUser(); // middleware is getting ClaimsPrincipal + ClaimsIdentity instead of WindowsPrincipal+WindowsIdentity!
 
 app.UseAuthentication();
 
-app.UseCustomWindowsUserForDevelopment(); // after app.UseAuthentication() ! middleware is getting WindowsPrincipal+WindowsIdentity (on the second execution)
+app.UseCustomWindowsUser(); // after app.UseAuthentication() ! middleware is getting WindowsPrincipal+WindowsIdentity (on the second execution)
 
 app.UseAuthorization();
 
