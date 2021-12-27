@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 
@@ -18,6 +19,8 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        [Authorize(Roles = "dummy_2")] // access
+        //[Authorize(Roles = "dummy_3")] // no access
         public IActionResult Privacy()
         {
             return View();
