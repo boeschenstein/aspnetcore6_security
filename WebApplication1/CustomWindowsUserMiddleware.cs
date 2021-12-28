@@ -11,21 +11,21 @@ public class CustomWindowsUserMiddleware
     // DI per request: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-5.0#per-request-middleware-dependencies
     public async Task InvokeAsync(HttpContext httpContext)
     {
-        Console.WriteLine($"============== CustomWindowsUserMiddlewareForDebugOnly: User: {httpContext.User}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User type: {httpContext.User.GetType()}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.IsInRole(\"docker-users\"): {httpContext.User.IsInRole("docker-users")}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.IsInRole(\"dummy_2\"): {httpContext.User.IsInRole("dummy_2")}");
+        Console.WriteLine($"============== CustomWindowsUserMiddleware: User: {httpContext.User}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User type: {httpContext.User.GetType()}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.IsInRole(\"docker-users\"): {httpContext.User.IsInRole("docker-users")}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.IsInRole(\"dummy_2\"): {httpContext.User.IsInRole("dummy_2")}");
 
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.Identity: {httpContext.User.Identity}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.Identity type: {httpContext.User.Identity?.GetType()}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.Identity.Name: {httpContext.User.Identity?.Name}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.Identity.IsAuthenticated: {httpContext.User.Identity?.IsAuthenticated}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: User.Identity.AuthenticationType: {httpContext.User.Identity?.AuthenticationType}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.Identity: {httpContext.User.Identity}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.Identity type: {httpContext.User.Identity?.GetType()}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.Identity.Name: {httpContext.User.Identity?.Name}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.Identity.IsAuthenticated: {httpContext.User.Identity?.IsAuthenticated}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: User.Identity.AuthenticationType: {httpContext.User.Identity?.AuthenticationType}");
 
         // todo: test with client certificate:
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: Connection.ClientCertificate: {httpContext.Connection.ClientCertificate}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: Connection.ClientCertificate.Subject: {httpContext.Connection.ClientCertificate?.Subject}");
-        Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: Connection.ClientCertificate type: {httpContext.Connection.ClientCertificate?.GetType()}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: Connection.ClientCertificate: {httpContext.Connection.ClientCertificate}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: Connection.ClientCertificate.Subject: {httpContext.Connection.ClientCertificate?.Subject}");
+        Console.WriteLine($"CustomWindowsUserMiddleware: Connection.ClientCertificate type: {httpContext.Connection.ClientCertificate?.GetType()}");
 
         if (httpContext.User is System.Security.Principal.WindowsPrincipal && httpContext.User.Identity is System.Security.Principal.WindowsIdentity)
         {
@@ -42,12 +42,12 @@ public class CustomWindowsUserMiddleware
 
             //throw new AuthenticationException($"test");
 
-            Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: setting new principal: {principal}");
+            Console.WriteLine($"CustomWindowsUserMiddleware: setting new principal: {principal}");
             httpContext.User = principal;
         }
         else
         {
-            Console.WriteLine($"CustomWindowsUserMiddlewareForDebugOnly: !!! wrong type (no support for 'Windows Authentication'), ignoring for now !!!");
+            Console.WriteLine($"CustomWindowsUserMiddleware: !!! wrong type (no support for 'Windows Authentication'), ignoring for now !!!");
         }
 
         await _next(httpContext);
