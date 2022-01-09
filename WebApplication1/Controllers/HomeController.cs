@@ -19,6 +19,8 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        //[AllowAnonymous]
+
         [Authorize(Roles = "dummy_2")] // access
         //[Authorize(Roles = "dummy_3")] // no access
 
