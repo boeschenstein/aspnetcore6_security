@@ -91,7 +91,49 @@ Authorize Attribute examples:
 
 ## Claims-Based
 
+
+CustomWindowsUserMiddleware handler:
+
+```cs
+public class CustomWindowsUserMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public CustomWindowsUserMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    // DI per request: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-6.0#per-request-middleware-dependencies
+    public async Task InvokeAsync(HttpContext httpContext)
+    {
+
+        var сlaimsIdentity = httpContext.User.Identity as ClaimsIdentity;
+        сlaimsIdentity?.AddClaim(new Claim("EmployeeNumber", "12345"));
+
+        await _next(httpContext);
+    }
+}
+```
+
+Configure Claims:
+
+```cs
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
+});
+```
+
+Authorize Attribute examples:
+
+```cs
+[Authorize(Policy = "EmployeeOnly")]
+```
+
 ## Policy-Based
+
+>Underneath the covers, role-based authorization and claims-based authorization use a requirement, a requirement handler, and a preconfigured policy
 
 ## IIS (Internet Information Service)
 
