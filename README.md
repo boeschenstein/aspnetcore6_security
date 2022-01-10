@@ -15,6 +15,82 @@ Authorization is the process of determining whether a user has access to a resou
 
 Authorization is orthogonal and independent from authentication. However, authorization requires an authentication mechanism. Authentication is the process of ascertaining who a user is. Authentication may create one or more identities for the current user.
 
+## Role-Based
+
+CustomWindowsUserMiddleware handler:
+
+```cs
+public class CustomWindowsUserMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public CustomWindowsUserMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    // DI per request: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-6.0#per-request-middleware-dependencies
+    public async Task InvokeAsync(HttpContext httpContext)
+    {
+        if (httpContext.User is System.Security.Principal.WindowsPrincipal && httpContext.User.Identity is System.Security.Principal.WindowsIdentity)
+        {
+            List<string> roles = new List<string>();
+            roles.Add("dummy_1");
+            if (httpContext.User.IsInRole("docker-users")) // IsInRole needs Windows Authentication in IIS/Kestrel/IIExpress
+            {
+                roles.Add("docker-users"); // example: reuse an exiting AD role
+                roles.Add("dummy_2"); // add a new custom role which does not exist in AD -> check Authenticate attribute in HomeController
+            }
+            var principal = new MyCustomPrincipal(httpContext.User.Identity, roles.ToArray(), "my_custom_id", "test_name";
+            httpContext.User = principal;
+        }
+        else
+        {
+            Console.WriteLine($"CustomWindowsUserMiddleware: !!! wrong type (no support for 'Windows Authentication'), ignoring for now !!!");
+        }
+
+        await _next(httpContext);
+    }
+}
+```
+
+Custom Principal:
+
+```cs
+public class MyCustomPrincipal : GenericPrincipal
+{
+    public MyCustomPrincipal(IIdentity identity, string[] roles, string myCustomInfo1, string myCustomInfo2)
+        : base(identity, roles)
+    {
+        MyCustomInfo1 = myCustomInfo1;
+        MyCustomInfo2 = myCustomInfo2;
+    }
+
+    public string MyCustomInfo1 { get; private set; }
+    public string MyCustomInfo2 { get; private set; }
+}
+```
+
+Authorize Attribute examples:
+
+```cs
+[Authorize(Roles = "dummy_2")] // access
+[Authorize(Roles = "dummy_3")] // no access
+
+// OR: role dummy_2 OR dummy_3 needed
+[Authorize(Roles = "dummy_2,dummy_3")] // OR
+
+// AND: if on separate line: role dummy_2 AND dummy_3 needed
+[Authorize(Roles = "dummy_2")]
+[Authorize(Roles = "dummy_3")]
+```
+
+>Convert Role-based to Policy-based: https://andrewlock.net/introduction-to-authorisation-in-asp-net-core/#authorising-based-on-roles
+
+## Claims-Based
+
+## Policy-Based
+
 ## IIS (Internet Information Service)
 
 ### .NET CLR Version
@@ -42,4 +118,5 @@ var clientCertificate = context.HttpContext.Connection.ClientCertificate; // syn
 
 ## Information
 
-https://docs.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-6.0
+- https://docs.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-6.0
+- Convert Role-based to Policy-based: https://andrewlock.net/introduction-to-authorisation-in-asp-net-core/#authorising-based-on-roles
