@@ -85,7 +85,9 @@ Authorize Attribute examples:
 [Authorize(Roles = "dummy_3")]
 ```
 
->Convert Role-based to Policy-based: https://andrewlock.net/introduction-to-authorisation-in-asp-net-core/#authorising-based-on-roles
+>"Policy based role checks" (Convert Role-based to Policy-based)
+- https://docs.microsoft.com/en-us/aspnet/core/security/authorization/roles?view=aspnetcore-6.0#policy-based-role-checks
+- https://andrewlock.net/introduction-to-authorisation-in-asp-net-core/#authorising-based-on-roles
 
 ## Claims-Based
 
@@ -119,4 +121,3 @@ var clientCertificate = context.HttpContext.Connection.ClientCertificate; // syn
 ## Information
 
 - https://docs.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-6.0
-- Convert Role-based to Policy-based: https://andrewlock.net/introduction-to-authorisation-in-asp-net-core/#authorising-based-on-roles
