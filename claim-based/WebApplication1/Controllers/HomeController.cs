@@ -20,16 +20,8 @@ namespace WebApplication1.Controllers
         }
 
         //[AllowAnonymous]
-
-        [Authorize(Roles = "dummy_2")] // access
-        //[Authorize(Roles = "dummy_3")] // no access
-
-        // OR: role dummy_2 OR dummy_3 needed
-        //[Authorize(Roles = "dummy_2,dummy_3")] // OR
-
-        // AND: if on separate line: role dummy_2 AND dummy_3 needed
-        //[Authorize(Roles = "dummy_2")]
-        //[Authorize(Roles = "dummy_3")]
+        [Authorize(Policy = "EmployeeOnly")] // access
+        //[Authorize(Policy = "unknown_policy")] // no access
 
         public IActionResult Privacy()
         {
