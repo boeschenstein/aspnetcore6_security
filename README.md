@@ -91,7 +91,6 @@ Authorize Attribute examples:
 
 ## Claims-Based
 
-
 CustomWindowsUserMiddleware handler:
 
 ```cs
@@ -134,6 +133,8 @@ Authorize Attribute examples:
 ## Policy-Based
 
 >Underneath the covers, role-based authorization and claims-based authorization use a requirement, a requirement handler, and a preconfigured policy
+
+see: https://github.com/boeschenstein/aspnetcore3-authentication-authorization
 
 ## IIS (Internet Information Service)
 
