@@ -180,3 +180,4 @@ var clientCertificate = context.HttpContext.Connection.ClientCertificate; // syn
 ## Information
 
 - https://docs.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-6.0
+- Web Server Certificate: https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide
